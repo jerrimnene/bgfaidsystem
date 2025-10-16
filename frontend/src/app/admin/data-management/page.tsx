@@ -1,20 +1,44 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import MainLayout from '@/components/layout/MainLayout';
 import { mockDB } from '@/utils/mockDatabase';
 import { Trash2, RefreshCw, Database, AlertTriangle } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 const DataManagementPage: React.FC = () => {
-  const handleClearAllData = () => {
+  const [stats, setStats] = useState({ total: 0, pending: 0, approved: 0, rejected: 0 });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const statsData = await mockDB.getWorkflowStats();
+        setStats(statsData);
+      } catch (error) {
+        console.error('Error loading stats:', error);
+        toast.error('Failed to load statistics');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadStats();
+  }, []);
+
+  const handleClearAllData = async () => {
     if (confirm('Are you sure you want to clear all application data? This action cannot be undone.')) {
-      mockDB.clearAllApplications();
-      toast.success('All application data has been cleared');
+      try {
+        await mockDB.clearAllApplications();
+        toast.success('All application data has been cleared');
+        // Reload stats after clearing
+        const statsData = await mockDB.getWorkflowStats();
+        setStats(statsData);
+      } catch (error) {
+        toast.error('Failed to clear data');
+      }
     }
   };
-
-  const stats = mockDB.getWorkflowStats();
 
   return (
     <MainLayout>
@@ -32,24 +56,31 @@ const DataManagementPage: React.FC = () => {
               Current Database Statistics
             </h2>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-blue-600">{stats.total}</p>
-                <p className="text-sm text-gray-600">Total Applications</p>
+            {loading ? (
+              <div className="flex justify-center items-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <span className="ml-2 text-gray-600">Loading statistics...</span>
               </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-yellow-600">{stats.pending}</p>
-                <p className="text-sm text-gray-600">Pending</p>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-blue-600">{stats.total}</p>
+                  <p className="text-sm text-gray-600">Total Applications</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-yellow-600">{stats.pending}</p>
+                  <p className="text-sm text-gray-600">Pending</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-green-600">{stats.approved}</p>
+                  <p className="text-sm text-gray-600">Approved</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-red-600">{stats.rejected}</p>
+                  <p className="text-sm text-gray-600">Rejected</p>
+                </div>
               </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-green-600">{stats.approved}</p>
-                <p className="text-sm text-gray-600">Approved</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-red-600">{stats.rejected}</p>
-                <p className="text-sm text-gray-600">Rejected</p>
-              </div>
-            </div>
+            )}
           </div>
 
           {/* Actions */}
