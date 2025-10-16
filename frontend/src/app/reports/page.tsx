@@ -49,7 +49,7 @@ const ReportsPage: React.FC = () => {
   }, []);
 
   const loadData = () => {
-    const allApplications = mockDB.getAllApplications();
+    const allApplications = mockDB.getAllApplicationsSync();
     const allReports = mockDB.getAllReports();
     const workflowStats = mockDB.getWorkflowStats();
     

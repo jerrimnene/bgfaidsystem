@@ -39,7 +39,7 @@ const MedicalReportsPage: React.FC = () => {
     loadMedicalReports();
   };
 
-  const applications = mockDB.getAllApplications();
+  const applications = mockDB.getAllApplicationsSync();
   const medicalApplications = applications.filter(app => app.type === 'medical_assistance');
   const completedMedical = medicalApplications.filter(app => app.status === 'completed');
   const totalMedicalValue = completedMedical.reduce((sum, app) => sum + app.amount, 0);

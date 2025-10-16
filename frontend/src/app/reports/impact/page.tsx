@@ -39,8 +39,8 @@ const ImpactReportsPage: React.FC = () => {
     loadImpactReports();
   };
 
-  const totalBeneficiaries = mockDB.getAllApplications().reduce((sum, app) => sum + (app.beneficiaries || 0), 0);
-  const completedApplications = mockDB.getAllApplications().filter(app => app.status === 'completed');
+  const totalBeneficiaries = mockDB.getAllApplicationsSync().reduce((sum, app) => sum + (app.beneficiaries || 0), 0);
+  const completedApplications = mockDB.getAllApplicationsSync().filter(app => app.status === 'completed');
   const totalImpactValue = completedApplications.reduce((sum, app) => sum + app.amount, 0);
 
   return (

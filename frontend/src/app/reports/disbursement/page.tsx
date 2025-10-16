@@ -39,7 +39,7 @@ const DisbursementReportsPage: React.FC = () => {
     loadDisbursementReports();
   };
 
-  const applications = mockDB.getAllApplications();
+  const applications = mockDB.getAllApplicationsSync();
   const completedDisbursements = applications.filter(app => app.status === 'completed');
   const pendingDisbursements = applications.filter(app => app.status === 'pending');
   const totalDisbursed = completedDisbursements.reduce((sum, app) => sum + app.amount, 0);

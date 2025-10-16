@@ -22,7 +22,7 @@ const ExecutivePage: React.FC = () => {
 
   const loadExecutiveApplications = async (userRole: string, userEmail: string) => {
     try {
-      const roleApplications = await mockDB.getApplicationsForRole(userRole, userEmail);
+      const roleApplications = await mockDB.getApplicationsForRoleSync(userRole, userEmail);
       setApplications(roleApplications);
     } catch (error) {
       console.error('Error loading applications:', error);

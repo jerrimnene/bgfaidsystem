@@ -368,7 +368,7 @@ class ApiService {
       categories.push(...formData.categories);
     }
     
-    return [...new Set(categories)];
+    return Array.from(new Set(categories));
   }
 }
 

@@ -173,7 +173,7 @@ export const authApi = {
   },
 
   getProfile: async (): Promise<ApiResponse<User>> => {
-    return this.getCurrentUser();
+    return authApi.getCurrentUser();
   },
 
   updateProfile: async (userData: Partial<User>): Promise<ApiResponse<User>> => {
@@ -223,11 +223,6 @@ export const applicationsApi = {
 
   executeWorkflowAction: async (id: string, action: WorkflowAction): Promise<ApiResponse> => {
     return apiRequest('post', `/applications/${id}/actions`, action);
-  },
-
-  getPendingApplications: async (params?: Record<string, any>): Promise<ApiResponse<Application[]>> => {
-    const queryString = params ? new URLSearchParams(params).toString() : '';
-    return apiRequest<Application[]>('get', `/applications/pending${queryString ? `?${queryString}` : ''}`);
   },
 
   getApplicationStats: async (): Promise<ApiResponse<DashboardStats>> => {
@@ -315,76 +310,6 @@ export const applicationsApi = {
     return Promise.resolve({ success: true, data: mockApplications });
   },
 
-  getApplications: async (params?: Record<string, any>): Promise<ApiResponse<Application[]>> => {
-    // Return the same mock data for now
-    const mockApplications: Application[] = [
-      {
-        id: '1',
-        application_id: 'BGF-2024-001',
-        applicant_id: '1',
-        type: 'small_grant',
-        status: 'new_submission',
-        title: 'Community Garden Project',
-        description: 'Establishing a community garden to provide fresh produce for local families',
-        amount_requested: 5000,
-        currency: 'USD',
-        personal_info: {},
-        project_details: {},
-        documents: [],
-        priority_level: 2,
-        submitted_at: new Date().toISOString(),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        applicant_first_name: 'John',
-        applicant_last_name: 'Doe',
-        applicant_email: 'john@example.com'
-      },
-      {
-        id: '2',
-        application_id: 'BGF-2024-002',
-        applicant_id: '2',
-        type: 'medical_assistance',
-        status: 'completed',
-        title: 'Emergency Medical Treatment',
-        description: 'Medical assistance for urgent surgery',
-        amount_requested: 15000,
-        currency: 'USD',
-        personal_info: {},
-        project_details: {},
-        documents: [],
-        priority_level: 4,
-        submitted_at: new Date().toISOString(),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        applicant_first_name: 'Jane',
-        applicant_last_name: 'Smith',
-        applicant_email: 'jane@example.com'
-      },
-      {
-        id: '3',
-        application_id: 'BGF-2024-003',
-        applicant_id: '3',
-        type: 'high_school_scholarship',
-        status: 'po_approved',
-        title: 'High School Education Support',
-        description: 'Scholarship for completing high school education',
-        amount_requested: 2000,
-        currency: 'USD',
-        personal_info: {},
-        project_details: {},
-        documents: [],
-        priority_level: 3,
-        submitted_at: new Date().toISOString(),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        applicant_first_name: 'Alice',
-        applicant_last_name: 'Johnson',
-        applicant_email: 'alice@example.com'
-      }
-    ];
-    
-    return Promise.resolve({ success: true, data: mockApplications });
-  },
 
   reviewApplication: async (id: string, review: any): Promise<ApiResponse> => {
     // Mock review action - just return success
@@ -458,7 +383,7 @@ export const usersApi = {
       first_name: 'Updated',
       last_name: 'User',
       role: 'applicant' as any,
-      status: (is_active ? 'active' : 'inactive') as const,
+      status: (is_active ? 'active' : 'inactive') as 'active' | 'inactive',
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
@@ -466,20 +391,7 @@ export const usersApi = {
   },
 };
 
-// Add helper functions for the admin dashboard
-authApi.getAllUsers = async (): Promise<ApiResponse<User[]>> => {
-  return usersApi.getUsers();
-};
 
-authApi.updateUserStatus = async (userId: string, status: 'active' | 'inactive'): Promise<ApiResponse> => {
-  const result = await usersApi.toggleUserStatus(userId, status === 'active');
-  return { success: result.success, message: 'User status updated' };
-};
-
-authApi.deleteUser = async (userId: string): Promise<ApiResponse> => {
-  // Mock delete - just return success
-  return Promise.resolve({ success: true, message: 'User deleted successfully' });
-};
 
 // System Settings API
 export const settingsApi = {

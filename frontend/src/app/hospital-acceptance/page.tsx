@@ -21,7 +21,7 @@ const HospitalAcceptancePage: React.FC = () => {
   }, []);
 
   const loadHospitalApplications = (userRole: string, userEmail: string) => {
-    const roleApplications = mockDB.getApplicationsForRole(userRole, userEmail);
+    const roleApplications = mockDB.getApplicationsForRoleSync(userRole, userEmail);
     setApplications(roleApplications);
   };
 

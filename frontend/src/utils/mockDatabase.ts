@@ -267,6 +267,7 @@ class MockDatabase {
   private convertApiApplication = (apiApp: ApiApplication): Application => {
     return {
       ...apiApp,
+      status: apiApp.status as 'pending' | 'approved' | 'rejected' | 'completed',
       submittedDate: apiApp.submittedDate || new Date().toISOString(),
       lastUpdated: apiApp.lastUpdated || new Date().toISOString(),
       documents: apiApp.documents || [],
@@ -400,7 +401,7 @@ class MockDatabase {
       categories.push(...formData.categories);
     }
     
-    return [...new Set(categories)];
+    return Array.from(new Set(categories));
   }
 
   // Generate reports
@@ -761,6 +762,27 @@ class MockDatabase {
       console.error('Error getting workflow stats:', error);
       return { total: 0, pending: 0, approved: 0, rejected: 0 };
     }
+  }
+
+  // Synchronous versions for immediate deployment fix
+  getWorkflowStatsSync(): { total: number; pending: number; approved: number; rejected: number } {
+    const total = this.applications.length;
+    const pending = this.applications.filter(app => app.status === 'pending').length;
+    const approved = this.applications.filter(app => app.status === 'approved').length;
+    const rejected = this.applications.filter(app => app.status === 'rejected').length;
+    return { total, pending, approved, rejected };
+  }
+
+  getAllApplicationsSync(): Application[] {
+    return this.applications;
+  }
+
+  getApplicationsForRoleSync(role: string, email: string): Application[] {
+    return this.applications.filter(app => {
+      if (app.currentReviewer === email) return true;
+      if (app.currentReviewerRole === role) return true;
+      return false;
+    });
   }
 }
 

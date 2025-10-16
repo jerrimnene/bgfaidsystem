@@ -11,25 +11,21 @@ const AssignPage: React.FC = () => {
   const [applications, setApplications] = useState<Application[]>([]);
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-          const userData = JSON.parse(storedUser);
-          setUser(userData);
-          await loadApplications();
-        }
-      } catch (error) {
-        console.error('Error loading data:', error);
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const userData = JSON.parse(storedUser);
+        setUser(userData);
+        loadApplications();
       }
-    };
-
-    loadData();
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
   }, []);
 
-  const loadApplications = async () => {
+  const loadApplications = () => {
     try {
-      const allApplications = await mockDB.getAllApplications();
+      const allApplications = mockDB.getAllApplicationsSync();
       setApplications(allApplications);
     } catch (error) {
       console.error('Error loading applications:', error);

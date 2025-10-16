@@ -68,7 +68,7 @@ const FinanceReportsPage: React.FC = () => {
                 <div className="ml-4">
                   <p className="text-green-100">Total Disbursed</p>
                   <p className="text-3xl font-bold">
-                    {formatCurrency(mockDB.getAllApplications().filter(app => app.status === 'completed').reduce((sum, app) => sum + app.amount, 0))}
+                    {formatCurrency(mockDB.getAllApplicationsSync().filter(app => app.status === 'completed').reduce((sum, app) => sum + app.amount, 0))}
                   </p>
                 </div>
               </div>
@@ -80,7 +80,7 @@ const FinanceReportsPage: React.FC = () => {
                 <div className="ml-4">
                   <p className="text-blue-100">Pending Amount</p>
                   <p className="text-3xl font-bold">
-                    {formatCurrency(mockDB.getAllApplications().filter(app => app.status === 'pending').reduce((sum, app) => sum + app.amount, 0))}
+                    {formatCurrency(mockDB.getAllApplicationsSync().filter(app => app.status === 'pending').reduce((sum, app) => sum + app.amount, 0))}
                   </p>
                 </div>
               </div>
@@ -102,8 +102,8 @@ const FinanceReportsPage: React.FC = () => {
                 <div className="ml-4">
                   <p className="text-orange-100">Avg Grant Size</p>
                   <p className="text-3xl font-bold">
-                    {formatCurrency(mockDB.getAllApplications().length > 0 ? 
-                      mockDB.getAllApplications().reduce((sum, app) => sum + app.amount, 0) / mockDB.getAllApplications().length : 0)}
+                    {formatCurrency(mockDB.getAllApplicationsSync().length > 0 ? 
+                      mockDB.getAllApplicationsSync().reduce((sum, app) => sum + app.amount, 0) / mockDB.getAllApplicationsSync().length : 0)}
                   </p>
                 </div>
               </div>

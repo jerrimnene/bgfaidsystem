@@ -11,19 +11,15 @@ const DataManagementPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadStats = async () => {
-      try {
-        const statsData = await mockDB.getWorkflowStats();
-        setStats(statsData);
-      } catch (error) {
-        console.error('Error loading stats:', error);
-        toast.error('Failed to load statistics');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadStats();
+    try {
+      const statsData = mockDB.getWorkflowStatsSync();
+      setStats(statsData);
+    } catch (error) {
+      console.error('Error loading stats:', error);
+      toast.error('Failed to load statistics');
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const handleClearAllData = async () => {

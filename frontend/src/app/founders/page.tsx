@@ -21,7 +21,7 @@ const FoundersPage: React.FC = () => {
   }, []);
 
   const loadFoundersApplications = (userRole: string, userEmail: string) => {
-    const roleApplications = mockDB.getApplicationsForRole(userRole, userEmail);
+    const roleApplications = mockDB.getApplicationsForRoleSync(userRole, userEmail);
     setApplications(roleApplications);
   };
 
