@@ -1,0 +1,55 @@
+services:
+  # Backend API Service
+  - type: web
+    name: bgf-backend
+    env: node
+    repo: https://github.com/jpbmnene-oss/bgf-aid-system
+    rootDir: ./backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        value: IW8BZo2H7W1BCCI6qg2D/xZXfz/ST4r0syPFictqdTaEEukQ/WZKWs7ETBlIXM50
+      - key: JWT_REFRESH_SECRET
+        value: woG8qzTdr9/uFA0cqp1EhqEE0iexqhicsKR1gFMiWMLHcoH+QcaX5DnHe9qqAdX/
+      - key: CORS_ORIGIN
+        value: https://bgfaidzim.org
+      - key: TWILIO_ACCOUNT_SID
+        value: ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      - key: TWILIO_AUTH_TOKEN
+        value: dummy_auth_token
+      - key: TWILIO_PHONE_NUMBER
+        value: +1234567890
+      - key: BCRYPT_ROUNDS
+        value: 12
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
+
+  # Frontend Service
+  - type: web
+    name: bgf-frontend
+    env: node
+    repo: https://github.com/jpbmnene-oss/bgf-aid-system
+    rootDir: ./frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_APP_NAME
+        value: BGF Aid System
+      - key: NEXT_PUBLIC_ORG_NAME
+        value: Bridging Gap Foundation
+
+databases:
+  # PostgreSQL Database
+  - name: bgf-database
+    plan: free
+    databaseName: bgf_aid_system
+    user: bgf_user
