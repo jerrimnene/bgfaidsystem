@@ -54,15 +54,40 @@ export default function EducationApplicationPage() {
     setLoading(true);
 
     try {
-      // Convert amount to number
+      // Transform form data to match API structure
       const applicationData = {
-        ...formData,
-        amountRequested: parseInt(formData.amountRequested) || 0
+        type: 'high_school_scholarship' as const,
+        title: `${formData.desiredLevel} Education Support - ${formData.firstName} ${formData.lastName}`,
+        description: formData.description,
+        amount_requested: parseInt(formData.amountRequested) || 0,
+        currency: 'USD',
+        personal_info: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          dateOfBirth: formData.dateOfBirth,
+          idNumber: formData.idNumber,
+          address: formData.address,
+          guardianName: formData.guardianName,
+          guardianPhone: formData.guardianPhone,
+          guardianEmail: formData.guardianEmail
+        },
+        project_details: {
+          aidType: formData.aidType,
+          currentEducationLevel: formData.currentEducationLevel,
+          schoolName: formData.schoolName,
+          desiredLevel: formData.desiredLevel,
+          academicRecords: formData.academicRecords,
+          financialSituation: formData.financialSituation,
+          urgency: formData.urgency
+        },
+        priority_level: formData.urgency === 'high' ? 3 : formData.urgency === 'medium' ? 2 : 1
       };
 
       console.log('Submitting application:', applicationData);
       
-      const response = await applicationsApi.createPublicApplication(applicationData);
+      const response = await applicationsApi.createApplication(applicationData);
       
       if (response.success) {
         toast.success('Application submitted successfully!');
