@@ -14,20 +14,34 @@ const AssignmentsPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const userData = JSON.parse(storedUser);
-      setUser(userData);
-      loadAssignments(userData.role, userData.email);
-    } else {
-      router.push('/auth/login');
-    }
-    setLoading(false);
+    const loadData = async () => {
+      try {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          const userData = JSON.parse(storedUser);
+          setUser(userData);
+          await loadAssignments(userData.role, userData.email);
+        } else {
+          router.push('/auth/login');
+        }
+      } catch (error) {
+        console.error('Error loading data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, [router]);
 
-  const loadAssignments = (userRole: string, userEmail: string) => {
-    const userAssignments = mockDB.getApplicationsForRole(userRole, userEmail);
-    setAssignments(userAssignments);
+  const loadAssignments = async (userRole: string, userEmail: string) => {
+    try {
+      const userAssignments = await mockDB.getApplicationsForRole(userRole, userEmail);
+      setAssignments(userAssignments);
+    } catch (error) {
+      console.error('Error loading assignments:', error);
+      setAssignments([]);
+    }
   };
 
   if (loading) {
