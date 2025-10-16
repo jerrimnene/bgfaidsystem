@@ -13,33 +13,51 @@ const ApprovePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const userData = JSON.parse(storedUser);
-      setUser(userData);
-      loadApplicationsForApproval(userData.role, userData.email);
-    }
-    setLoading(false);
+    const loadData = async () => {
+      try {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          const userData = JSON.parse(storedUser);
+          setUser(userData);
+          await loadApplicationsForApproval(userData.role, userData.email);
+        }
+      } catch (error) {
+        console.error('Error loading data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
 
-  const loadApplicationsForApproval = (userRole: string, userEmail: string) => {
-    const roleApplications = mockDB.getApplicationsForRole(userRole, userEmail);
-    setApplications(roleApplications);
+  const loadApplicationsForApproval = async (userRole: string, userEmail: string) => {
+    try {
+      const roleApplications = await mockDB.getApplicationsForRole(userRole, userEmail);
+      setApplications(roleApplications);
+    } catch (error) {
+      console.error('Error loading applications:', error);
+      setApplications([]);
+    }
   };
 
-  const handleApplicationUpdate = (applicationId: string, action: string, comment?: string) => {
+  const handleApplicationUpdate = async (applicationId: string, action: string, comment?: string) => {
     if (!user) return;
     
-    const success = mockDB.updateApplicationWorkflow(
-      applicationId,
-      action as 'approve' | 'reject' | 'request_edit',
-      user.email,
-      `${user.first_name} ${user.last_name}`,
-      comment
-    );
-    
-    if (success) {
-      loadApplicationsForApproval(user.role, user.email);
+    try {
+      const success = await mockDB.updateApplicationWorkflow(
+        applicationId,
+        action as 'approve' | 'reject' | 'request_edit',
+        user.email,
+        `${user.first_name} ${user.last_name}`,
+        comment
+      );
+      
+      if (success) {
+        await loadApplicationsForApproval(user.role, user.email);
+      }
+    } catch (error) {
+      console.error('Error updating application:', error);
     }
   };
 
