@@ -1,0 +1,7 @@
+This is a test document for BGF Aid Application
+Application ID: TEST-001
+Applicant: Grace Mukamuri
+Document Type: Supporting Document
+Date: Wed Oct 15 23:20:23 CAT 2025
+
+This document contains supporting information for my aid application.

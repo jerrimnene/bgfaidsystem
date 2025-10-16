@@ -1,0 +1,35 @@
+name: bgf-aid-system
+services:
+- build_command: npm run build
+  environment_slug: node-js
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: your-github-username/bgf-aid-system
+  http_port: 3000
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: frontend
+  routes:
+  - path: /
+  run_command: npm start
+  source_dir: /frontend
+- build_command: npm run build
+  environment_slug: node-js
+  http_port: 3001
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: backend
+  routes:
+  - path: /api
+  run_command: npm start
+  source_dir: /backend
+databases:
+- engine: PG
+  name: bgf-database
+  num_nodes: 1
+  size: db-s-dev-database
+  version: "15"
+domains:
+- domain: bgfaidzim.org
+  type: PRIMARY
