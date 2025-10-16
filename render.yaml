@@ -11,6 +11,10 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: bgf-database
+          property: connectionString
       - key: JWT_SECRET
         value: IW8BZo2H7W1BCCI6qg2D/xZXfz/ST4r0syPFictqdTaEEukQ/WZKWs7ETBlIXM50
       - key: JWT_REFRESH_SECRET
@@ -42,6 +46,12 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: bgf-backend
+          envVarKey: RENDER_EXTERNAL_URL
+          property: url
       - key: NEXT_PUBLIC_APP_NAME
         value: BGF Aid System
       - key: NEXT_PUBLIC_ORG_NAME
