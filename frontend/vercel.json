@@ -1,19 +1,13 @@
 {
+  "version": 2,
   "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
+    { "src": "package.json", "use": "@vercel/next" }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
+    { "src": "/api/(.*)", "dest": "https://api.bgfaidsystems.live/api/$1" },
+    { "src": "/(.*)", "dest": "/" }
   ],
   "env": {
-    "NEXT_PUBLIC_API_URL": "https://bgf-backend.vercel.app/api/v1",
-    "NEXT_PUBLIC_APP_NAME": "BGF Aid System",
-    "NEXT_PUBLIC_ORG_NAME": "Bridging Gap Foundation"
+    "NEXT_PUBLIC_API_URL": "https://api.bgfaidsystems.live/api/v1"
   }
 }
