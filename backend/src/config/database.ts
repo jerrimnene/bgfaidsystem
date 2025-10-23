@@ -1,12 +1,15 @@
-import { Pool } from "pg";
+import { Pool, PoolClient } from "pg";
 
 let pool: Pool;
 
+/**
+ * Initialize database connection using Render PostgreSQL URL.
+ */
 export const initializeDatabase = () => {
   if (!pool) {
     pool = new Pool({
       connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false }, // required for Render Postgres
+      ssl: { rejectUnauthorized: false }, // Required for Render Postgres
     });
 
     pool.on("error", (err) => {
@@ -17,6 +20,9 @@ export const initializeDatabase = () => {
   return pool;
 };
 
+/**
+ * Return the active connection pool.
+ */
 export const getPool = (): Pool => {
   if (!pool) {
     initializeDatabase();
@@ -24,6 +30,9 @@ export const getPool = (): Pool => {
   return pool;
 };
 
+/**
+ * Run a single SQL query safely with parameters.
+ */
 export const query = async (text: string, params?: any[]) => {
   const client = getPool();
   try {
@@ -35,6 +44,31 @@ export const query = async (text: string, params?: any[]) => {
   }
 };
 
+/**
+ * Execute multiple queries in a transaction.
+ * Rolls back automatically on failure.
+ */
+export const transaction = async (
+  callback: (client: PoolClient) => Promise<any>
+) => {
+  const client = await getPool().connect();
+  try {
+    await client.query("BEGIN");
+    const result = await callback(client);
+    await client.query("COMMIT");
+    return result;
+  } catch (error) {
+    await client.query("ROLLBACK");
+    console.error("Transaction error:", error);
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+/**
+ * Verify the connection to the database.
+ */
 export const testConnection = async () => {
   try {
     const result = await query("SELECT NOW() as now");
@@ -46,10 +80,12 @@ export const testConnection = async () => {
   }
 };
 
+/**
+ * Close the connection pool gracefully.
+ */
 export const closePool = async () => {
   if (pool) {
     await pool.end();
     console.log("Database connection pool closed");
   }
 };
-
