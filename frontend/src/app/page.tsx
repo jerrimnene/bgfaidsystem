@@ -52,6 +52,9 @@ export default function Home() {
               <Link href="/staff" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
                 Staff Portal
               </Link>
+              <Link href="/goodsam-emergency" className="text-red-600 hover:text-red-700 font-bold transition-colors">
+                🕊️ GoodSam Network
+              </Link>
               <Link href="/education-support" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
                 Education Support
               </Link>
@@ -143,6 +146,16 @@ export default function Home() {
                       <p className="text-sm text-blue-200">Staff login and dashboard</p>
                     </div>
                   </Link>
+                  
+                  <Link href="/goodsam-emergency" className="flex items-center p-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg transition-all duration-300 group border border-white/20">
+                    <div className="bg-red-600 p-2 rounded-lg mr-4">
+                      <Heart className="h-6 w-6 text-white" fill="currentColor" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white group-hover:text-blue-200">🕊️ GoodSam Network</h4>
+                      <p className="text-sm text-blue-200">24/7 Emergency Help</p>
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -169,7 +182,7 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {/* Education Program */}
             <div className="group relative overflow-hidden bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105">
               <div className="relative h-48">
@@ -273,6 +286,28 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            
+            {/* GoodSam Network */}
+            <Link href="/goodsam" className="group relative overflow-hidden bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105">
+              <div className="relative h-48">
+                <div className="absolute inset-0 bg-gradient-to-t from-red-900/80 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-pink-600"></div>
+              </div>
+              <div className="p-6">
+                <div className="flex items-center mb-4">
+                  <div className="p-2 bg-red-100 rounded-lg mr-3">
+                    <Heart className="h-6 w-6 text-red-600" fill="currentColor" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900">🕊️ GoodSam Network</h3>
+                </div>
+                <p className="text-gray-600 mb-4">
+                  24/7 immediate response system connecting people in crisis with verified helpers.
+                </p>
+                <div className="text-sm text-red-600 font-semibold">
+                  Prayer • Counseling • Emergency • Spiritual Support
+                </div>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -380,6 +415,7 @@ export default function Home() {
                 <li><Link href="/apply" className="hover:text-white transition-colors">Apply for Aid</Link></li>
                 <li><Link href="/staff" className="hover:text-white transition-colors">Staff Portal</Link></li>
                 <li><Link href="/education-support" className="hover:text-white transition-colors">Education Support</Link></li>
+                <li><Link href="/goodsam" className="hover:text-white transition-colors">GoodSam Network</Link></li>
                 <li><Link href="#programs" className="hover:text-white transition-colors">Programs</Link></li>
                 <li><Link href="#impact" className="hover:text-white transition-colors">Impact</Link></li>
               </ul>
@@ -412,15 +448,6 @@ export default function Home() {
         </div>
       </footer>
       
-      {/* ElevenLabs AI Chat Assistant */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <elevenlabs-convai agent-id="agent_1301k7nwqxb6et9v2f4cp1xzysq8"></elevenlabs-convai>
-      </div>
-      
-      {/* AI Assistant Indicator */}
-      <div className="fixed bottom-28 right-4 bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg animate-pulse z-40">
-        💬 Need Help? Ask Our AI Assistant!
-      </div>
     </div>
   );
 }

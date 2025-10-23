@@ -12,6 +12,7 @@ import { cleanupExpiredSessions } from './utils/jwt';
 import authRoutes from './routes/authRoutes';
 import applicationRoutes from './routes/applicationRoutes';
 import uploadRoutes from './routes/uploadRoutes';
+import goodsamRoutes from './routes/goodsamRoutes';
 
 // Load environment variables
 dotenv.config();
@@ -75,6 +76,9 @@ apiRouter.use('/auth', authRoutes);
 
 // Application routes
 apiRouter.use('/applications', applicationRoutes);
+
+// GoodSam Network routes
+apiRouter.use('/goodsam', goodsamRoutes);
 
 // Upload routes
 apiRouter.use('/', uploadRoutes);

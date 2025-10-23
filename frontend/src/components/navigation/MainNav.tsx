@@ -189,6 +189,10 @@ const MainNav: React.FC<MainNavProps> = ({ currentPath = '/' }) => {
               <Home className="h-4 w-4" />
               <span>System Overview</span>
             </Link>
+            <Link href="/goodsam" className="flex items-center space-x-1 text-sm text-red-600 hover:text-red-700 whitespace-nowrap font-semibold">
+              <Heart className="h-4 w-4" fill="currentColor" />
+              <span>GoodSam Network</span>
+            </Link>
             <Link href="/auth/login" className="flex items-center space-x-1 text-sm text-gray-600 hover:text-blue-600 whitespace-nowrap">
               <User className="h-4 w-4" />
               <span>Authentication</span>

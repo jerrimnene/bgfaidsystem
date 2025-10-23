@@ -25,6 +25,11 @@ export default function RootLayout({
           <Toaster position="top-right" />
         </LanguageProvider>
         
+        {/* 11Labs Bibiana Widget - Available on ALL pages */}
+        <div className="fixed bottom-6 right-6 z-50">
+          <elevenlabs-convai agent-id="agent_1301k7nwqxb6et9v2f4cp1xzysq8"></elevenlabs-convai>
+        </div>
+        
         {/* ElevenLabs ConvAI Widget Script */}
         <script 
           src="https://unpkg.com/@elevenlabs/convai-widget-embed" 
