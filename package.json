@@ -26,6 +26,14 @@
     "setup": "npm install && cd frontend && npm install && cd ../backend && npm install && cd ../shared && npm install"
   },
   "devDependencies": {
+    "@types/compression": "^1.8.1",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.4",
+    "@types/js-cookie": "^3.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
+    "@types/multer": "^2.0.0",
+    "@types/pg": "^8.15.5",
     "concurrently": "^8.2.2"
   },
   "engines": {

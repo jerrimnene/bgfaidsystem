@@ -1,26 +1,9 @@
-import { Router } from 'express';
-import { 
-  register, 
-  login, 
-  logout, 
-  refresh, 
-  me, 
-  updateProfile, 
-  changePassword 
-} from '../controllers/authController';
-import { authenticate } from '../middleware/auth';
+import express from "express";
+import { login } from "../controllers/authController";
 
-const router = Router();
+const router = express.Router();
 
-// Public routes
-router.post('/register', register);
-router.post('/login', login);
-router.post('/refresh', refresh);
-
-// Protected routes
-router.post('/logout', authenticate, logout);
-router.get('/me', authenticate, me);
-router.put('/profile', authenticate, updateProfile);
-router.post('/change-password', authenticate, changePassword);
+// Only login route for now (others removed to match working controller)
+router.post("/login", login);
 
 export default router;
