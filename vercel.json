@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "framework": "nextjs",
+  "buildCommand": "npm install && npm run build",
+  "outputDirectory": ".next",
+  "env": {
+    "NEXT_PUBLIC_API_URL": "https://bgfaidsystems.live/api/v1"
+  }
+}
