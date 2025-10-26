@@ -11,7 +11,8 @@ interface Message {
 }
 
 export default function MessageThread() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params?.id as string | undefined;   // ✅ safer for TypeScript
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(true);
